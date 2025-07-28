@@ -1,0 +1,64 @@
+<odoo>
+    <!-- ============ LIST VIEW ============ -->
+    <record id="mbuzz_intern_list_view" model="ir.ui.view">
+        <field name="name">mbuzz.intern.list.view</field>
+        <field name="model">mbuzz.intern</field>
+        <field name="arch" type="xml">
+            <list string="MBUZZ Intern List">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="department"/>
+                <field name="mentor_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ============ FORM VIEW ============ -->
+    <record id="mbuzz_intern_form_view" model="ir.ui.view">
+        <field name="name">mbuzz.intern.form.view</field>
+        <field name="model">mbuzz.intern</field>
+        <field name="arch" type="xml">
+            <form string="MBUZZ Intern Details">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="department"/>
+                        <field name="mentor_id"/>
+                    </group>
+                    <group>
+                        <field name="status"/>
+                        <field name="remarks"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============ WINDOW ACTION ============ -->
+    <record id="mbuzz_intern_action" model="ir.actions.act_window">
+        <field name="name">MBUZZ Interns</field>
+        <field name="res_model">mbuzz.intern</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ============ MENUS ============ -->
+    <!-- Top-level application entry (optional) -->
+    <menuitem id="mbuzz_root_menu"
+              name="MBUZZ Interns"
+              sequence="10"/>
+
+    <!-- Sub-menu under the app -->
+    <menuitem id="mbuzz_intern_mgmt_menu"
+              name="Intern Management"
+              parent="mbuzz_root_menu"
+              sequence="20"/>
+
+    <!-- Final menu that opens the action -->
+    <menuitem id="mbuzz_intern_menu"
+              name="Intern List"
+              parent="mbuzz_intern_mgmt_menu"
+              action="mbuzz_intern_action"
+              sequence="10"/>
+</odoo>
