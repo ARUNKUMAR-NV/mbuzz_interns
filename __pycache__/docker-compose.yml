@@ -1,0 +1,37 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    restart: always
+
+  odoo:
+    image: odoo:18
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    volumes:
+      - ./odoo:/mnt/odoo         # Core Odoo source code
+      - ./addons:/mnt/custom-addons  # Your custom addons
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - odoo-web-data:/var/lib/odoo  # Your config
+    command: >
+      odoo -c /etc/odoo/odoo.conf --dev=xml --addons-path=/mnt/odoo/odoo/addons,/mnt/custom-addons
+    environment:
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+    restart: always
+    
+networks: # <-- ADDED: Define the network
+  odoo-network:
+    driver: bridge
+
+volumes: # <-- CRUCIAL ADDITION: Define the named volumes here
+  odoo-db-data:
+  odoo-web-data:
